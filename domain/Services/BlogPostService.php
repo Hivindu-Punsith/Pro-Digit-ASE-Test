@@ -28,6 +28,11 @@ class BlogPostService
         return $this->blogPost->where('is_active', 1)->get();
     }
 
+    public function activeAllPaginate()
+    {
+        return $this->blogPost->where('is_active', 1)->paginate(10);
+    }
+
     /**
      * get
      *
