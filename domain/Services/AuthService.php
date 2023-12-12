@@ -34,17 +34,5 @@ class AuthService
 
             return $response;
         }
-    }
-  
-    public function createUser($data)
-    {
-        $user = $this->user->create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' =>  Hash::make($data['password']),
-        ]);
-
-        return $user;
-    }
-
+    } 
 }

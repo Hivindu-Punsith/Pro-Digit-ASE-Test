@@ -25,7 +25,6 @@ class BlogPostController extends ParentController
         $request->validate([
             'title' => 'required',
             'description' => 'required',
-            'is_active' => 'required|boolean',
         ]);
 
         BlogPostFacade::store($request->all());
@@ -43,7 +42,6 @@ class BlogPostController extends ParentController
         $request->validate([
             'title' => 'required',
             'description' => 'required',
-            'is_active' => 'required|boolean',
         ]);
 
         $blogPost->update($request->all());
@@ -60,11 +58,11 @@ class BlogPostController extends ParentController
 
     public function updateStatus(Request $request, $id)
     {
-        if ($request->is_active) {
+        if ($request->is_active == "true") {
             $status = 1;
         } else {
             $status = 0;
-        }
+        }     
 
         BlogPostFacade::updateBlogPostStatus($status, $id);
 
