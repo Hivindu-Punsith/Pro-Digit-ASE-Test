@@ -58,12 +58,12 @@ class BlogPostService
         $this->get($id)->delete();
     }
 
-    public function updateBlogPostStatus($data)
+    public function updateBlogPostStatus($status, $id)
     {
-        $blogPost = $this->get($data['id']);
+        $blogPost = $this->get($id);
 
         if ($blogPost) {
-            $blogPost->is_active = $data['status'];
+            $blogPost->is_active = $status;
             $blogPost->save();
         }
     }

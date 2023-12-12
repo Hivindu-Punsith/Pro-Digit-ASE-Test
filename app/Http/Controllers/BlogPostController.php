@@ -10,9 +10,9 @@ class BlogPostController extends Controller
 {
     public function index()
     {
-        $blogPostData = BlogPostFacade::all();
+        $posts = BlogPostFacade::all();
 
-        return view('pages.dashboard.index', compact('blogPostData'));
+        return view('pages.dashboard.index', compact('posts'));
     }
 
     public function create()
@@ -56,5 +56,18 @@ class BlogPostController extends Controller
         $blogPost->delete();
 
         return redirect()->route('blog-posts.index')->with('success', 'Blog post deleted successfully');
+    }
+
+    public function updateStatus(Request $request, $id)
+    {
+        if ($request->is_active) {
+            $status = 1;
+        } else {
+            $status = 0;
+        }
+
+        BlogPostFacade::updateBlogPostStatus($status, $id);
+
+        return response()->json(['message' => 'Status updated successfully']);
     }
 }

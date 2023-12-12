@@ -14,6 +14,8 @@ use App\Http\Controllers\HomeController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
 Route::get('/', [BlogPostController::class, 'index'])->name('dashboard');
 
 Route::resource('blog-posts', BlogPostController::class);
+Route::put('blog-posts-change-status/{id}', [BlogPostController::class, 'updateStatus']);
