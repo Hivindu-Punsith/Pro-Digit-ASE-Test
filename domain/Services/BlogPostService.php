@@ -45,8 +45,7 @@ class BlogPostService
     }
 
     public function store($data)
-    {
-        
+    {        
         $this->blogPost->create([
             'title' => $data['title'],
             'description' => $data['description'],

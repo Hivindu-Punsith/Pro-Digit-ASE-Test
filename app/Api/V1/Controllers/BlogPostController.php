@@ -24,9 +24,13 @@ class BlogPostController extends Controller
     {
         try {
 
-            $posts = BlogPostFacade::get($id);
+            $post = BlogPostFacade::get($id);
 
-            return ApiResponse::success($posts);
+            if (!$post) {
+                return ApiResponse::notFound('Post Not Found');
+            }
+
+            return ApiResponse::success($post);
         } catch (Throwable $th) {
             throw $th;
             return ApiResponse::exception();
