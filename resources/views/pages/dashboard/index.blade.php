@@ -30,12 +30,12 @@
                                 {{ $post->is_active ? 'checked' : '' }} />
                         </td>
                         <td>
-                            <a href="{{ route('blog-posts.edit', $post->id) }}" class="btn btn-primary">Edit</a>
+                            <a href="{{ route('blog-posts.edit', $post->id) }}" class="btn btn-sm btn-primary">Edit</a>
                             <form class="delete-form" action="{{ route('blog-posts.destroy', $post->id) }}" method="POST"
                                 style="display:inline;">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger">Delete</button>
+                                <a class="btn btn-sm btn-danger delete_btn">{{ __('Delete') }}</a>
                             </form>
                         </td>
                     </tr>
@@ -43,10 +43,15 @@
             </tbody>
         </table>
     </div>
-    
+@endsection
+
+@push('js')
+@endpush
+
+@push('custom-scripts')
     <script>
-     
         $(document).ready(function() {
+
             $('.toggle-active').on('change', function() {
                 const postId = $(this).data('id');
                 const isActive = $(this).prop('checked');
@@ -83,6 +88,23 @@
                     }
                 });
             });
+
+            $(document).on('click', '.delete_btn', function(e) {
+                console.log("Changee");
+                swal.fire({
+                    title: "Are you sure?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Yes!",
+                }).then(result => {
+                    if (result.value) {
+                        $(this).closest("form").submit();
+                    }
+                });
+
+            });
+
         });
     </script>
-@endsection
+@endpush

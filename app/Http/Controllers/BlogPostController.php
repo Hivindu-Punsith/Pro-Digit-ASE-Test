@@ -6,7 +6,7 @@ use App\Models\BlogPost;
 use Illuminate\Http\Request;
 use domain\Facades\BlogPostFacade;
 
-class BlogPostController extends Controller
+class BlogPostController extends ParentController
 {
     public function index()
     {
