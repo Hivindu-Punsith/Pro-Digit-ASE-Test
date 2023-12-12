@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Throwable;
 use App\Models\BlogPost;
 use Illuminate\Http\Request;
 use domain\Facades\BlogPostFacade;
@@ -10,62 +11,88 @@ class BlogPostController extends ParentController
 {
     public function index()
     {
-        $posts = BlogPostFacade::all();
+        try {
+            $posts = BlogPostFacade::all();
 
-        return view('pages.dashboard.index', compact('posts'));
+            return view('pages.dashboard.index', compact('posts'));
+        } catch (Throwable $th) {
+            return redirect()->back()->with('error', 'Something went wrong');
+        }
     }
 
     public function create()
     {
-        return view('pages.dashboard.create');
+        try {
+            return view('pages.dashboard.create');
+        } catch (Throwable $th) {
+            return redirect()->back()->with('error', 'Something went wrong');
+        }
     }
 
     public function store(Request $request)
     {
-        $request->validate([
-            'title' => 'required',
-            'description' => 'required',
-        ]);
+        try {
+            $request->validate([
+                'title' => 'required',
+                'description' => 'required',
+            ]);
 
-        BlogPostFacade::store($request->all());
+            BlogPostFacade::store($request->all());
 
-        return redirect()->route('blog-posts.index')->with('success', 'Blog post created successfully');
+            return redirect()->route('blog-posts.index')->with('success', 'Blog post created successfully');
+        } catch (Throwable $th) {
+            return redirect()->back()->with('error', 'Something went wrong');
+        }
     }
 
     public function edit(BlogPost $blogPost)
     {
-        return view('pages.dashboard.edit', compact('blogPost'));
+        try {
+            return view('pages.dashboard.edit', compact('blogPost'));
+        } catch (Throwable $th) {
+            return redirect()->back()->with('error', 'Something went wrong');
+        }
     }
 
     public function update(Request $request, BlogPost $blogPost)
     {
-        $request->validate([
-            'title' => 'required',
-            'description' => 'required',
-        ]);
+        try {
+            $request->validate([
+                'title' => 'required',
+                'description' => 'required',
+            ]);
 
-        $blogPost->update($request->all());
+            $blogPost->update($request->all());
 
-        return redirect()->route('blog-posts.index')->with('success', 'Blog post updated successfully');
+            return redirect()->route('blog-posts.index')->with('success', 'Blog post updated successfully');
+        } catch (Throwable $th) {
+            return redirect()->back()->with('error', 'Something went wrong');
+        }
     }
 
     public function destroy(BlogPost $blogPost)
     {
-        $blogPost->delete();
+        try {
+            $blogPost->delete();
 
-        return redirect()->route('blog-posts.index')->with('success', 'Blog post deleted successfully');
+            return redirect()->route('blog-posts.index')->with('success', 'Blog post deleted successfully');
+        } catch (Throwable $th) {
+            return redirect()->back()->with('error', 'Something went wrong');
+        }
     }
 
     public function updateStatus(Request $request, $id)
     {
-        if ($request->is_active == "true") {
-            $status = 1;
-        } else {
-            $status = 0;
-        }     
+        if ($request->ajax()) {
+            if ($request->is_active == "true") {
+                $status = 1;
+            } else {
+                $status = 0;
+            }
 
-        BlogPostFacade::updateBlogPostStatus($status, $id);
+            BlogPostFacade::updateBlogPostStatus($status, $id);
 
-        return response()->json(['message' => 'Status updated successfully']);
+            return response()->json(['message' => 'Status updated successfully']);
+        }
     }
 }

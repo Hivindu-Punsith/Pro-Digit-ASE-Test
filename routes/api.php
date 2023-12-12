@@ -17,13 +17,12 @@ use App\Api\V1\Controllers\BlogPostController;
 */
 
 Route::prefix('v1')->namespace('App\Api\V1\Controllers')->group(function () {
-    
-    Route::post('/login', [AuthController::class, 'login']);
- 
+    Route::middleware(['public_api'])->group(function () {
+        Route::post('/login', [AuthController::class, 'login']);
+    });
+
     Route::middleware('auth:api')->group(function () {
         Route::get('/blog-posts', [BlogPostController::class, 'getBlockPosts']);
         Route::get('/blog-post/{id}', [BlogPostController::class, 'getBlockPostsById']);
     });
-
-
 });
