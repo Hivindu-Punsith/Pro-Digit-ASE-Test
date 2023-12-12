@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Api\V1\Controllers\AuthController;
 use App\Api\V1\Controllers\BlogPostController;
 
 /*
@@ -16,8 +17,13 @@ use App\Api\V1\Controllers\BlogPostController;
 */
 
 Route::prefix('v1')->namespace('App\Api\V1\Controllers')->group(function () {
+    
+    Route::post('/login', [AuthController::class, 'login']);
+ 
+    Route::middleware('auth:api')->group(function () {
+        Route::get('/blog-posts', [BlogPostController::class, 'getBlockPosts']);
+        Route::get('/blog-post/{id}', [BlogPostController::class, 'getBlockPostsById']);
+    });
 
-    Route::get('/blog-posts', [BlogPostController::class, 'getBlockPosts']);
-    Route::get('/blog-post/{id}', [BlogPostController::class, 'getBlockPostsById']);
 
 });

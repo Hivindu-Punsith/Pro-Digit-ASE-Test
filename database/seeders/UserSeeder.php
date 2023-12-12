@@ -16,7 +16,7 @@ class UserSeeder extends Seeder
     {
         $users = [
             ['name' => 'Admin', 'email' => 'admin@gmail.com', 'password' => Hash::make('12345678')],
-            // Add more users as needed
+            ['name' => 'Api User', 'email' => 'apiuser@gmail.com', 'password' => Hash::make('87654321')],
         ];
 
         foreach ($users as $key => $user) {
