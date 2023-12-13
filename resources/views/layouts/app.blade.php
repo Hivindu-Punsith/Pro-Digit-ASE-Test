@@ -19,7 +19,8 @@
             </button>
         </div>
 
-        <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+        <a class="nav-link" href="#"
+            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
             <i class="ni ni-user-run text-white icon-active"></i>
             <span class="nav-link-text pop-font-side-nav">Logout</span>
         </a>

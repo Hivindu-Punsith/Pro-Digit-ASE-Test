@@ -30,7 +30,7 @@ class BlogPostService
 
     public function activeAllPaginate()
     {
-        return $this->blogPost->where('is_active', 1)->paginate(10);
+        return $this->blogPost->where('is_active', 1)->cursorPaginate(10);
     }
 
     /**
